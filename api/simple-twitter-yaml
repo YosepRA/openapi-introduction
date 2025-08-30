@@ -1,0 +1,41 @@
+openapi: 3.0.4
+info:
+  title: Simple Twitter API
+  version: 1.0.0
+  description: Simple Twitter API
+paths:
+  /posts:
+    post:
+      summary: Create a new post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  example: 'Hello World!'
+                  maxLength: 280
+              required:
+                - text
+      responses:
+        '201':
+          description: Successfully created a new post
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 'abc123'
+                  text:
+                    type: string
+                    example: 'Hello World!'
+                  createdAt:
+                    type: string
+                    format: date-time
+                    example: '2025-08-28T02:31:47.838Z'
+        '400':
+          description: Bad request. The text was missing or too long.

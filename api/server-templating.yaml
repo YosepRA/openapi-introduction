@@ -1,0 +1,32 @@
+openapi: 3.0.4
+
+info:
+  title: Server Templating
+  version: 1.0.0
+
+servers:
+  - url: https://{customerId}.sass-app.com:{port}/v2
+    variables:
+      customerId:
+        default: demo
+        description: Customer ID assigned by the service provider.
+      port:
+        enum:
+          - '443'
+          - '8443'
+        default: '443'
+
+paths:
+  /users:
+    get:
+      summary: Get a list of users.
+      responses:
+        '200':
+          description: Returns a list of username.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                example: ['BigJoe', 'AnnaMaria']
