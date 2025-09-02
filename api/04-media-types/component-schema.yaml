@@ -1,0 +1,36 @@
+openapi: 3.0.4
+
+info:
+  title: Reusable Component Schema
+  version: 1.0.0
+
+paths:
+  /employees:
+    get:
+      summary: Get a list of employees.
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Employee'
+
+components:
+  schemas:
+    Employee:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        fullTime:
+          type: boolean
+      example:
+        id: Employee-003
+        name: Yosep Ryan Agusta
+        fullTime: true

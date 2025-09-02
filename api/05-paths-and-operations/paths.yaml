@@ -1,0 +1,86 @@
+openapi: 3.0.4
+
+info:
+  title: Paths
+  version: 1.0.0
+
+paths:
+  # Path
+  /ping:
+    # Operation
+    get:
+      summary: Ping the server.
+      responses:
+        '200':
+          description: Ok
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Ping'
+
+  /users:
+    get:
+      summary: Get a list of users.
+      responses:
+        '200':
+          description: Returns a list of usernames.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+
+  /users/{userId}:
+    summary: Represents a user.
+    description: >
+      This resource represents an individual user in the system.
+      Each user is identified by a numeric `id`.
+
+    get:
+      summary: Get a user's details.
+      description: >
+        Get a user details based on given user ID. It returns a user object
+        with username and full name.
+      tags:
+        - Users
+      operationId: getUserById
+      parameters:
+        - name: userId
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Returns user details with username and full name.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+components:
+  schemas:
+    Ping:
+      type: string
+      example: Ping Pong
+
+    Users:
+      type: array
+      items:
+        type: string
+      example: ['BigJoe', 'AnnaMaria']
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        fullName:
+          type: string
+      example:
+        id: 001
+        username: BigJoe
+        fullName: Johannes Hugo

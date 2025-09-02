@@ -1,0 +1,32 @@
+openapi: 3.0.4
+
+info:
+  title: Overriding Servers
+  version: 1.0.0
+
+servers:
+  - url: https://api.example.com/v1
+
+paths:
+  /files:
+    # Overriding server on path level.
+    description: File upload and download operations.
+    servers:
+      - url: https://files.example.com
+        description: Override base path for all operations with the /files path
+
+  /ping:
+    # Overriding server on operation level.
+    get:
+      summary: Basic ping
+      servers:
+        - url: https://echo.example.com
+          description: Override base path for the GET /ping operation.
+      responses:
+        '200':
+          description: Success ping.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'Ping'

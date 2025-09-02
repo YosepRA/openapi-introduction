@@ -5,8 +5,13 @@ info:
   version: 1.0.0
 
 servers:
-  - url: https://{customerId}.sass-app.com:{port}/v2
+  - url: '{protocol}://{customerId}.sass-app.com:{port}/v2'
     variables:
+      protocol:
+        default: http
+        enum:
+          - http
+          - https
       customerId:
         default: demo
         description: Customer ID assigned by the service provider.
