@@ -1,0 +1,90 @@
+openapi: 3.0.4
+
+info:
+  title: Path Parameters
+  version: 1.0.0
+  description: Declare parameters through paths.
+
+paths:
+  /users/{id}:
+    get:
+      summary: Get a user by ID.
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 123
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /cars/{carId}/drivers/{driverId}:
+    get:
+      summary: Get a driver details by driver and car IDs.
+      tags:
+        - Drivers
+      parameters:
+        - name: carId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: Car-001
+        - name: driverId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: Driver-1000
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Driver'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        fullName:
+          type: string
+      required:
+        - id
+        - username
+      example:
+        id: 1
+        username: BigJoe
+        fullName: Yosep Ryan Agusta
+    Driver:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        cars:
+          type: array
+          items:
+            type: string
+      required:
+        - id
+        - name
+      example:
+        id: Driver-1000
+        name: Yosep Ryan Agusta
+        cars: ['Car-001', 'Car-002']

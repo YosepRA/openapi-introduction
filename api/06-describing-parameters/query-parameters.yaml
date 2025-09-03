@@ -1,0 +1,29 @@
+openapi: 3.0.1
+
+info:
+  title: Query Parameters
+  version: 1.0.0
+
+paths:
+  /pets/findByStatus:
+    get:
+      summary: Get pets by status.
+      tags:
+        - Pets
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum:
+              - available
+              - resting
+            default: available
+          required: true
+          description: The pets status which you want to filter in.
+        - name: page
+          in: query
+          schema:
+            type: integer
+          required: true
+          description: The current page.

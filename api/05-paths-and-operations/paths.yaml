@@ -10,6 +10,9 @@ paths:
     # Operation
     get:
       summary: Ping the server.
+      tags:
+        - Common
+      operationId: ping
       responses:
         '200':
           description: Ok
@@ -21,6 +24,9 @@ paths:
   /users:
     get:
       summary: Get a list of users.
+      tags:
+        - Users
+      operationId: getUsers
       responses:
         '200':
           description: Returns a list of usernames.
@@ -58,6 +64,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+      externalDocs:
+        description: Learn more about user operations provided by this API.
+        url: http://api.example.com/docs/user-operations
 
 components:
   schemas:
@@ -76,10 +85,14 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         username:
           type: string
         fullName:
           type: string
+      required:
+        - id
+        - username
       example:
         id: 001
         username: BigJoe
