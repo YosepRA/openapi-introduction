@@ -27,3 +27,68 @@ paths:
             type: integer
           required: true
           description: The current page.
+      responses:
+        '200':
+          description: Returns a list of pets by status with pages.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetWithPage'
+
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+            - Dog
+            - Cat
+          default: Dog
+        breed:
+          type: string
+        status:
+          type: string
+          enum:
+            - available
+            - resting
+          default: available
+      example:
+        id: 1
+        name: Wolfy
+        type: Dog
+        breed: Siberian Husky
+        status: available
+
+    PaginatedResponse:
+      type: object
+      properties:
+        docs:
+          type: array
+        page:
+          type: integer
+          description: The current page.
+          example: 1
+        limit:
+          type: integer
+          description: The amount of data per page.
+          example: 25
+        totalDocs:
+          type: integer
+          description: The total documents for this data set.
+          example: 120
+
+    PetWithPage:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedResponse'
+        - type: object
+          properties:
+            docs:
+              type: array
+              items:
+                $ref: '#/components/schemas/Pet'

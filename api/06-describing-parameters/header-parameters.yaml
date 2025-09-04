@@ -1,0 +1,27 @@
+openapi: 3.0.4
+
+info:
+  title: Header Parameters
+  version: 1.0.0
+
+paths:
+  /ping:
+    get:
+      summary: Ping the server.
+      tags:
+        - Common
+      parameters:
+        - name: X-Request-ID
+          in: header
+          schema:
+            type: string
+            format: uuid
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Ping
