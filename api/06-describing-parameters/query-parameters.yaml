@@ -62,7 +62,6 @@ components:
         id: 1
         name: Wolfy
         type: Dog
-        breed: Siberian Husky
         status: available
 
     PaginatedResponse:

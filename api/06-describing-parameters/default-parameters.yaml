@@ -1,0 +1,87 @@
+openapi: 3.0.4
+
+info:
+  title: Default Parameters
+  version: 1.0.0
+
+paths:
+  /blogs:
+    get:
+      summary: Get a list of blogs.
+      tags:
+        - Blogs
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          required: false
+          description: The current page.
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            enum:
+              - 10
+              - 25
+              - 50
+            default: 25
+          required: false
+          description: The amount of data per page.
+      responses:
+        '200':
+          description: Returns a list of blogs.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogWithPage'
+
+components:
+  schemas:
+    Blog:
+      type: object
+      properties:
+        title:
+          type: string
+        excerpt:
+          type: string
+        body:
+          type: string
+      example:
+        title: Hello World
+        excerpt: >
+          Phasellus ac leo malesuada, feugiat urna ac, sollicitudin neque. 
+          Morbi turpis est, dignissim vel laoreet ut, posuere volutpat turpis. 
+          Sed elementum vitae ligula ac luctus. Etiam congue congue turpis. Nulla.
+        body: >
+          Sed at ornare tellus, vitae volutpat purus. Nullam quis maximus neque. Ut 
+          posuere, massa ac mattis luctus, tellus turpis semper ligula, ac facilisis 
+          risus velit sit amet nulla. In blandit, dolor non sagittis aliquet, libero 
+          nulla molestie ante, vel posuere est enim vel enim. Fusce egestas fringilla 
+          enim eleifend molestie. Praesent cursus molestie mi, quis lacinia magna egestas 
+          in. Nunc.
+    PaginatedResponse:
+      type: object
+      properties:
+        docs:
+          type: array
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 10
+        totalDocs:
+          type: integer
+          example: 52
+    BlogWithPage:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedResponse'
+        - type: object
+          properties:
+            docs:
+              type: array
+              items:
+                $ref: '#/components/schemas/Blog'
