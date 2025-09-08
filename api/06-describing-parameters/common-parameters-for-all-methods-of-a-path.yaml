@@ -1,0 +1,61 @@
+openapi: 3.0.4
+
+info:
+  title: Common Parameters for All Methods of a Path
+  version: 1.0.0
+
+paths:
+  /users/{id}:
+    parameters:
+      - name: id
+        in: path
+        schema:
+          type: string
+        required: true
+        description: The user ID.
+
+    get:
+      summary: Get user information.
+      tags:
+        - User
+      parameters:
+        - name: metadata
+          in: query
+          schema:
+            type: boolean
+            default: false
+          required: false
+          description: Include metadata or not.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+    put:
+      summary: Update user information.
+      tags:
+        - User
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      example:
+        id: abc123
+        name: John Doe

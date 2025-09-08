@@ -1,0 +1,39 @@
+openapi: 3.0.4
+
+info:
+  title: Parameter Examples
+  version: 1.0.0
+
+paths:
+  /ping:
+    get:
+      summary: Ping the server
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: string
+          required: false
+          example: 10
+        - name: ids
+          in: query
+          description: One or more IDs.
+          schema:
+            type: array
+            items:
+              type: integer
+          examples:
+            oneId:
+              summary: Example of a single ID.
+              value: [5]
+            multipleIds:
+              summary: Example of multiple IDs.
+              value: [5, 10, 25]
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Ping

@@ -1,0 +1,65 @@
+openapi: 3.0.4
+
+info:
+  title: Common Parameters for Various Paths
+  version: 1.0.0
+
+paths:
+  /posts:
+    get:
+      summary: Get a list of posts.
+      tags:
+        - Post
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/pageParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+
+components:
+  schemas:
+    Post:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        body:
+          type: string
+      example:
+        id: abc123
+        title: Hello World
+        body: >
+          Sed at ornare tellus, vitae volutpat purus. Nullam quis maximus neque. Ut 
+          posuere, massa ac mattis luctus, tellus turpis semper ligula, ac facilisis 
+          risus velit sit amet nulla. In blandit, dolor non sagittis aliquet, libero 
+          nulla molestie ante, vel posuere est enim vel enim. Fusce egestas fringilla 
+          enim eleifend molestie. Praesent cursus molestie mi, quis lacinia magna egestas 
+          in. Nunc.
+  parameters:
+    limitParam:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        enum:
+          - 10
+          - 25
+          - 50
+        default: 10
+      description: Limit for the amount of data per page.
+    pageParam:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      required: true
+      description: The current page.
