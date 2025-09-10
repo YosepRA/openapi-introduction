@@ -1,0 +1,129 @@
+openapi: 3.0.4
+
+info:
+  title: Pet Store
+  version: 1.0.0
+
+paths:
+  /pets:
+    get:
+      summary: Get a list of pets.
+      tags:
+        - Pet
+      parameters:
+        - $ref: '#/components/parameters/limitParam'
+        - $ref: '#/components/parameters/pageParam'
+      responses:
+        '200':
+          description: Returns a list of pets.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetWithPage'
+    post:
+      summary: Create a new pet.
+      tags:
+        - Pet
+      requestBody:
+        $ref: '#/components/requestBodies/PetBody'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetOutput'
+
+components:
+  schemas:
+    PetBase:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Nala
+        petType:
+          type: string
+          enum:
+            - Dog
+            - Cat
+          default: Dog
+          example: Dog
+        breed:
+          type: string
+          example: Golden Retriever
+      required:
+        - name
+        - petType
+    PetInput:
+      allOf:
+        - $ref: '#/components/schemas/PetBase'
+        - type: object # For more additional input specific properties.
+    PetOutput:
+      allOf:
+        - $ref: '#/components/schemas/PetBase'
+        - type: object
+          properties:
+            id:
+              type: string
+              example: abc123
+          required:
+            - id
+    PaginatedResponse:
+      type: object
+      properties:
+        docs:
+          type: array
+        page:
+          $ref: '#/components/schemas/Page'
+        limit:
+          $ref: '#/components/schemas/Limit'
+        totalDocs:
+          type: integer
+          minimum: 0
+          example: 120
+    Page:
+      type: integer
+      minimum: 1
+      default: 1
+      example: 1
+    Limit:
+      type: integer
+      enum:
+        - 10
+        - 25
+        - 50
+      default: 50
+      example: 50
+    PetWithPage:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedResponse'
+        - type: object
+          properties:
+            docs:
+              type: array
+              items:
+                $ref: '#/components/schemas/PetOutput'
+
+  parameters:
+    pageParam:
+      name: page
+      in: query
+      schema:
+        $ref: '#/components/schemas/Page'
+      required: true
+      description: The current page.
+    limitParam:
+      name: limit
+      in: query
+      schema:
+        $ref: '#/components/schemas/Limit'
+      description: The amount of data per request.
+
+  requestBodies:
+    PetBody:
+      # description: Pet input body data. # Optional decription with Markdown.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PetInput'
